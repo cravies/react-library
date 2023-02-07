@@ -1,10 +1,11 @@
 import './BookShelf.css'
+import Book from './Book'
 
-function BookShelf() {
+function BookShelf({ books, toggleBook}) {
   return (
-    <div className="shelf">
-      <p> A shelf element. </p>
-    </div>
+    books.map(book => {
+      return <Book key={book.id} book={book} toggleBook={toggleBook} />
+    })
   )
 }
 
