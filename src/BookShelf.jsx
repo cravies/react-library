@@ -7,6 +7,7 @@ function BookShelf({ books }) {
     { field: 'id', headerName: 'ID', width: 130 },
     { field: 'title', headerName: 'Book Title', width: 130 },
     { field: 'author', headerName: 'Author', width: 130 },
+    { field: 'pages', headerName:'Pages', type:'number', width:100}
   ];
 
   function DataTable() {
