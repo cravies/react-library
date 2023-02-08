@@ -9,17 +9,6 @@ function App() {
   const titleRef = useRef()
   const authorRef = useRef()
 
-  function toggleBook(id) {
-    /* never want to change state directly in react */
-    const newBooks = [...books]
-    /* grab the book with the right id */
-    const book = newBooks.find(book => book.id==id)
-    /* toggle read state */
-    book.read = !book.read 
-    /* update books */
-    setBooks(newBooks)
-  }
-
   function handleAddBook(e) {
     const title = titleRef.current.value
     const author = authorRef.current.value
@@ -44,7 +33,7 @@ function App() {
     <>
     <h1> Ben's Bookshelf </h1>
     <h2> Bookshelf: </h2>
-    <BookShelf books={books} toggleBook={toggleBook}/>
+    <BookShelf books={books}/>
     <label>Book Title:</label>
     <input ref={titleRef} type="text" />
     <label>Author Name:</label>
