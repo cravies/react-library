@@ -9,7 +9,7 @@ export default function Book({ book, toggleBook}) {
     return (
         <div>
             <input type="checkbox" checked={book.read} onChange={handleBookClick}/>
-            {book.name}
+            {book.title} by {book.author}
         </div> 
     )
 }
