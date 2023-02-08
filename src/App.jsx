@@ -27,7 +27,7 @@ function App() {
     setBooks(prevBooks => {
       return [
         ...prevBooks, 
-        {id:count, title:title, author:author, pages:pages}
+        {id:count, title:title, author:author, pages:pages, pages_read:0}
       ]
     })
     /* clear old input */
@@ -41,7 +41,7 @@ function App() {
   return (
     <>
     <h1> Ben's Bookshelf </h1>
-    <BookShelf books={books}/>
+    <BookShelf books={books} name="toread"/>
     <label>Book Title:</label>
     <input ref={titleRef} type="text" />
     <label>Author Name:</label>
