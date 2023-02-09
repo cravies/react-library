@@ -1,7 +1,9 @@
 import './BookShelf.css'
 import Book from './Book'
 import { DataGrid, useGridApiRef} from '@mui/x-data-grid';
+import Box from '@mui/material/Box'
 import React, { useState, useRef } from 'react'
+import { yellow } from '@mui/material/colors';
 
 function BookShelf({ books, name }) {
   const columns = [
@@ -10,15 +12,15 @@ function BookShelf({ books, name }) {
     { field: 'author', headerName: 'Author', width:300},
     { field: 'pages', headerName:'Pages', type:'number', width:120},
     { field: 'pages_read', headerName: 'Pages Read', type:'number', width:120, editable:true},
-    { field: 'progress', headerName: 'Progress', width:120}
+    { field: 'progress', headerName: 'Progress %', width:120}
   ];
 
   /* calulate progress through the book */
   function progressRow(pages, pages_read) {
     if (pages_read==0) {
-      return "0%";
+      return 0;
     } else {
-      return `${(pages_read / pages)*100}%`;
+      return (pages_read / pages)*100;
     }
   }
   
@@ -26,7 +28,7 @@ function BookShelf({ books, name }) {
   function createRow(book) {
     const progress = progressRow(book.pages, book.pages_read);
     book = {'id':book.id, 'title':book.title, 'author':book.author, 
-    'pages':book.pages, 'pages_read':book.pages_read, 'progress':progress}
+    'pages':book.pages, 'pages_read':book.pages_read, 'progress':`${progress}`}
     return book
   }
   
@@ -41,7 +43,28 @@ function BookShelf({ books, name }) {
     /* calulate progress for books */
     books = books.map(book => createRow(book));
     return (
-        <div style={{ height: 400, width: '100%' }}>
+          <Box
+          sx={{
+            height: 300,
+            width: '100%',
+            '& .other': {
+              color: '#213547',
+              backgroundColor: '#ffffff',
+            },
+            '& .low': {
+              backgroundColor: 'red',
+              color: 'blue',
+            },
+            '& .medium': {
+              backgroundColor: 'orange',
+              color: 'purple',
+            },
+            '& .high': {
+              backgroundColor: 'green',
+              color: 'pink',
+            },
+          }}
+        >
         <DataGrid
             rows={books}
             columns={columns}
@@ -49,11 +72,22 @@ function BookShelf({ books, name }) {
             rowsPerPageOptions={[5]}
             experimentalFeatures={{ newEditingApi: true }}
             processRowUpdate={processRowUpdate}
+            getCellClassName={(params) => {
+              if (params.field != 'progress' || params.value == null) {
+                return 'other'
+              }
+              if (params.value <= 30) {
+                return 'low'
+              } else if (params.value <= 60) {
+                return 'medium'  
+              } else {
+                return 'high'
+              }
+            }}
         />
-        </div>
+        </Box>
     );
   }
-
   return(DataTable())
 }
 
