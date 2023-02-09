@@ -3,7 +3,6 @@ import Book from './Book'
 import { DataGrid, useGridApiRef} from '@mui/x-data-grid';
 import Box from '@mui/material/Box'
 import React, { useState, useRef } from 'react'
-import { yellow } from '@mui/material/colors';
 
 function BookShelf({ books, name }) {
   const columns = [
@@ -28,7 +27,7 @@ function BookShelf({ books, name }) {
   function createRow(book) {
     const progress = progressRow(book.pages, book.pages_read);
     book = {'id':book.id, 'title':book.title, 'author':book.author, 
-    'pages':book.pages, 'pages_read':book.pages_read, 'progress':`${progress}`}
+    'pages':book.pages, 'pages_read':500, 'progress':`${progress}`}
     return book
   }
   
@@ -52,16 +51,13 @@ function BookShelf({ books, name }) {
               backgroundColor: '#ffffff',
             },
             '& .low': {
-              backgroundColor: 'red',
-              color: 'blue',
+              backgroundColor: 'rgba(255, 0, 0, 0.5)',
             },
             '& .medium': {
-              backgroundColor: 'orange',
-              color: 'purple',
+              backgroundColor: 'rgba(255, 128, 0, 0.5)',
             },
             '& .high': {
-              backgroundColor: 'green',
-              color: 'pink',
+              backgroundColor: 'rgba(0, 255, 0, 0.5)',
             },
           }}
         >
@@ -76,9 +72,9 @@ function BookShelf({ books, name }) {
               if (params.field != 'progress' || params.value == null) {
                 return 'other'
               }
-              if (params.value <= 30) {
+              if (params.value <= 33.3) {
                 return 'low'
-              } else if (params.value <= 60) {
+              } else if (params.value <= 66.6) {
                 return 'medium'  
               } else {
                 return 'high'

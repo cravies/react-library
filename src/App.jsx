@@ -27,7 +27,7 @@ function App() {
     setBooks(prevBooks => {
       return [
         ...prevBooks, 
-        {id:count, title:title, author:author, pages:pages, pages_read:0}
+        {id:count, title:title, author:author, pages:pages, pages_read:100}
       ]
     })
     /* clear old input */
