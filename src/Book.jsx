@@ -28,7 +28,7 @@ export default function Book({ book, toggleBook, removeBook }) {
                 <input style={{display:'inline-block'}} type="checkbox" checked={book.read} onChange={handleBookClick}/>
             </td>
             <td>
-                <button style={{display:'inline-block', backgroundColor: 'red'}} onClick={handleRemoveBook}>Remove Book</button>
+                <button style={{display:'inline-block', backgroundColor: 'tomato'}} onClick={handleRemoveBook}>Remove Book</button>
             </td>
         </tr>
     )
