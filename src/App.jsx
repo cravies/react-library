@@ -5,18 +5,26 @@ import BookShelf from './BookShelf'
 let count=1
 
 function App() {
+
+  //defaults
   const defaultBooks = [
-    {id:792872, title:'1984', author:'George Orwell', pages:368, read:true},
-    {id:27282, title:'Frankenstein', author:'Mary Shelly', pages:260, read:false},
-    {id:388393, title:'The Great Gatsby', author:'F.Scott Fitzgerald', pages:180, read:true},
-    {id:2992, title:'Anna Karenina', author:'Leo Tolstoy', pages:964, read:false},
-    {id:4383, title:'The World According to Garp', author:'John Irving', pages:610, read:true},
-    {id:17827, title:'The Sun Also Rises', author:'Ernest Hemingway', pages:189, read:true},
+    {id:792872, title:'1984', author:'George Orwell', pages:368, read:true, tags:'scifi,dystopian'},
+    {id:27282, title:'Frankenstein', author:'Mary Shelly', pages:260, read:false, tags:'scifi'},
+    {id:388393, title:'The Great Gatsby', author:'F.Scott Fitzgerald', pages:180, read:true, tags:'modernist'},
+    {id:2992, title:'Anna Karenina', author:'Leo Tolstoy', pages:964, read:false, tags:'spiritual'},
+    {id:4383, title:'The World According to Garp', author:'John Irving', pages:610, read:true, tags:'comic'},
+    {id:17827, title:'The Sun Also Rises', author:'Ernest Hemingway', pages:189, read:true, tags:'tragic,modernist'},
   ]
+  //make tags arr
+  defaultBooks.map(book => (
+    book.tags = splitTags(book.tags)
+  ))
+
   const [books, setBooks] = useState(defaultBooks)
   const titleRef = useRef()
   const authorRef = useRef()
   const pageRef = useRef()
+  const tagRef = useRef()
 
   function toggleBook(id) {
     /* never want to change state directly in react */
@@ -40,9 +48,26 @@ function App() {
     return !isNaN(num)
   }
 
+  function splitTags(tags) {
+    // split our tags by space or comma separation
+    // should be in format 
+    // 'thriller, western, romance'
+    // or 'thriller,western,romance'
+    // or 'thriller western romance'
+    if (tags.includes(', ')) {
+      tags = tags.split(', ')
+    } else if (tags.includes(',')) {
+      tags = tags.split(',')
+    } else {
+      tags = tags.split(' ')
+    }
+    return tags
+  }
+
   function handleAddBook(e) {
     const title = titleRef.current.value
     const author = authorRef.current.value
+    const tags = splitTags(tagRef.current.value)
     /* js ternary operator syntax:
     condition ? exprIfTrue : exprIfFalse
     I use to set pages to 0 if not a valid number */
@@ -51,13 +76,16 @@ function App() {
     setBooks(prevBooks => {
       return [
         ...prevBooks, 
-        {id:count, title:title, author:author, pages:pages, read:false}
+        {id:count, title:title, author:author, 
+          pages:pages, read:false, tags:tags}
       ]
     })
     /* clear old input */
     titleRef.current.value = null
     authorRef.current.value = null
     pageRef.current.value = null
+    tagRef.current.value = null
+
     /* increment id */
     count += 1
   }
@@ -81,6 +109,8 @@ function App() {
       <input ref={authorRef} type="text" style={inputStyle}/>
       <label style={labelStyle}>Pages:</label>
       <input ref={pageRef} type="text" style={inputStyle}/>
+      <label style={labelStyle}>Tags:</label>
+      <input ref={tagRef} type="text" style={inputStyle}/>
     </div>
     <button onClick={handleAddBook}>Add book to shelf</button>
     </>

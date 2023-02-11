@@ -2,6 +2,8 @@ import React from 'react'
 
 export default function Book({ book, toggleBook, removeBook }) {
 
+    const tags = book.tags
+
     // toggle the book back and forth from [read <-> not read]
     function handleBookClick() {
         toggleBook(book.id)
@@ -28,7 +30,12 @@ export default function Book({ book, toggleBook, removeBook }) {
                 <input style={{display:'inline-block'}} type="checkbox" checked={book.read} onChange={handleBookClick}/>
             </td>
             <td>
-                <button style={{display:'inline-block', backgroundColor: 'tomato'}} onClick={handleRemoveBook}>Remove Book</button>
+            {tags.map((tag) => (
+                <button style={{border: '1px solid black', margin:'1px', padding:'10px'}}>{tag}</button>
+            ))}
+            </td>
+            <td>
+                <button style={{display:'inline-block', backgroundColor: 'tomato'}} onClick={handleRemoveBook}>Remove</button>
             </td>
         </tr>
     )

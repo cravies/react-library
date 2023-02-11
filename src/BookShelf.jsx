@@ -10,8 +10,8 @@ function BookShelf({ books, toggleBook, removeBook}) {
   return(
     <table style={{
       tableLayout: 'fixed',
-      width: '85%',
-      height: '65%',
+      width: '90%',
+      height: '70%',
       gap:'2rem',
       margin: '0 auto',
       alignItems: 'left',
@@ -26,6 +26,7 @@ function BookShelf({ books, toggleBook, removeBook}) {
               <th style={headStyle}>Author</th>
               <th style={headStyle}>Pages</th>
               <th style={headStyle}>Read</th>
+              <th style={headStyle}>Tags</th>
               <th></th>
           </tr>
       </thead>
