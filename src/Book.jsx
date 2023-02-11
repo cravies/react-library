@@ -14,6 +14,14 @@ export default function Book({ book, toggleBook, removeBook }) {
         removeBook(book.id)
     }
 
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+      }
+    
+    function rndKey(id) {
+        return getRandomInt(1000)*id
+    }
+
     /* green if we've read it */
     return (
         <tr>
@@ -30,8 +38,8 @@ export default function Book({ book, toggleBook, removeBook }) {
                 <input style={{display:'inline-block'}} type="checkbox" checked={book.read} onChange={handleBookClick}/>
             </td>
             <td>
-            {tags.map((tag) => (
-                <button style={{border: '1px solid black', margin:'1px', padding:'10px'}}>{tag}</button>
+            {tags.map((tag,i) => (
+                <button style={{border: '1px solid black', margin:'1px', padding:'10px'}} key={rndKey(i)}>{tag}</button>
             ))}
             </td>
             <td>

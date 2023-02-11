@@ -15,6 +15,7 @@ function App() {
     {id:4383, title:'The World According to Garp', author:'John Irving', pages:610, read:true, tags:'comic'},
     {id:17827, title:'The Sun Also Rises', author:'Ernest Hemingway', pages:189, read:true, tags:'tragic,modernist'},
   ]
+
   //make tags arr
   defaultBooks.map(book => (
     book.tags = splitTags(book.tags)
@@ -90,6 +91,14 @@ function App() {
     count += 1
   }
 
+  function handleScroll(direction) {
+    if (direction=='up') {
+      console.log("scrolling up")
+    } else {
+      console.log("scrolling down")
+    }
+  }
+
   const labelStyle = {
     padding: "10px",
   }
@@ -97,6 +106,11 @@ function App() {
   const inputStyle = {
     margin: "10px"
   };
+
+  const buttonStyle = {
+    border: '1px solid black',
+    margin: '10px'
+  }
 
   return (
     <>
@@ -112,7 +126,11 @@ function App() {
       <label style={labelStyle}>Tags:</label>
       <input ref={tagRef} type="text" style={inputStyle}/>
     </div>
-    <button onClick={handleAddBook}>Add book to shelf</button>
+    <div>
+      <button style={buttonStyle} onClick={handleScroll('up')}>Scroll shelf up</button>
+      <button style={buttonStyle} onClick={handleAddBook}>Add book to shelf</button>
+      <button style={buttonStyle} onClick={handleScroll('down')}>Scroll shelf down</button>
+    </div>
     </>
   )
 }

@@ -7,6 +7,14 @@ function BookShelf({ books, toggleBook, removeBook}) {
     border: "1px solid black",
   };
 
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  function rndKey(id) {
+    return getRandomInt(1000)*id
+  }
+
   return(
     <table style={{
       tableLayout: 'fixed',
@@ -33,7 +41,7 @@ function BookShelf({ books, toggleBook, removeBook}) {
       <tbody>
       {books.map((book,i) => (
         <Book 
-        index={i} key={book.id} book={book} 
+        index={i} key={rndKey(book.id)} book={book} 
         toggleBook={toggleBook} removeBook={removeBook}
         />
       ))}
