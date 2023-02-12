@@ -16,15 +16,15 @@ export default function Book({ book, toggleBook, removeBook }) {
 
     function getRandomInt(max) {
         return Math.floor(Math.random() * max);
-      }
+    }
     
-    function rndKey(id) {
-        return getRandomInt(1000)*id
+    function rndKey() {
+        return getRandomInt(100000)
     }
 
     /* green if we've read it */
     return (
-        <tr>
+        <tr style={{ display: book.hide? 'none' : ''}}>
             <td style={{border: "1px solid black", backgroundColor: book.read? 'lightgreen':'white'}}>
                 <label>{book.title}</label>
             </td>
@@ -39,7 +39,7 @@ export default function Book({ book, toggleBook, removeBook }) {
             </td>
             <td>
             {tags.map((tag,i) => (
-                <button style={{border: '1px solid black', margin:'1px', padding:'10px'}} key={rndKey(i)}>{tag}</button>
+                <button style={{border: '1px solid black', margin:'1px', padding:'10px'}} key={rndKey()}>{tag}</button>
             ))}
             </td>
             <td>

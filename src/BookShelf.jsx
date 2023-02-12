@@ -1,7 +1,7 @@
 import './BookShelf.css'
 import Book from './Book'
 
-function BookShelf({ books, toggleBook, removeBook}) {
+function BookShelf({ books, toggleBook, removeBook }) {
 
   const headStyle = {
     border: "1px solid black",

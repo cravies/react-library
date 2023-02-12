@@ -8,12 +8,12 @@ function App() {
 
   //defaults
   const defaultBooks = [
-    {id:792872, title:'1984', author:'George Orwell', pages:368, read:true, tags:'scifi,dystopian'},
-    {id:27282, title:'Frankenstein', author:'Mary Shelly', pages:260, read:false, tags:'scifi'},
-    {id:388393, title:'The Great Gatsby', author:'F.Scott Fitzgerald', pages:180, read:true, tags:'modernist'},
-    {id:2992, title:'Anna Karenina', author:'Leo Tolstoy', pages:964, read:false, tags:'spiritual'},
-    {id:4383, title:'The World According to Garp', author:'John Irving', pages:610, read:true, tags:'comic'},
-    {id:17827, title:'The Sun Also Rises', author:'Ernest Hemingway', pages:189, read:true, tags:'tragic,modernist'},
+    {id:792872, title:'1984', author:'George Orwell', pages:368, read:true, tags:'scifi,dystopian', hide:false},
+    {id:27282, title:'Frankenstein', author:'Mary Shelly', pages:260, read:false, tags:'scifi', hide:false},
+    {id:388393, title:'The Great Gatsby', author:'F.Scott Fitzgerald', pages:180, read:true, tags:'modernist', hide:false},
+    {id:2992, title:'Anna Karenina', author:'Leo Tolstoy', pages:964, read:false, tags:'spiritual', hide:false},
+    {id:4383, title:'The World According to Garp', author:'John Irving', pages:610, read:true, tags:'comic', hide:false},
+    {id:17827, title:'The Sun Also Rises', author:'Ernest Hemingway', pages:189, read:true, tags:'tragic,modernist', hide:false},
   ]
 
   //make tags arr
@@ -26,6 +26,7 @@ function App() {
   const authorRef = useRef()
   const pageRef = useRef()
   const tagRef = useRef()
+  const selectRef = useRef()
 
   function toggleBook(id) {
     /* never want to change state directly in react */
@@ -40,6 +41,25 @@ function App() {
 
   function removeBook (id) {
     setBooks(books => books.filter((item) => item.id !== id));
+  }
+
+  function selectTag () {
+    const tag = selectRef.current.value
+    const newBooks = [...books]
+    // grab a book that doesn't include the tag
+    newBooks.map(book => 
+      book.hide = book.tags.includes(tag) ? false : true
+    )
+    setBooks(newBooks)
+  }
+
+  function showAll () {
+    // set all book.hide = false
+    const newBooks = [...books]
+    newBooks.map(book =>
+      book.hide = false
+    )
+    setBooks(newBooks)
   }
 
   /* check if a var is a valid number 
@@ -78,7 +98,9 @@ function App() {
       return [
         ...prevBooks, 
         {id:count, title:title, author:author, 
-          pages:pages, read:false, tags:tags}
+          pages:pages, read:false, tags:tags,
+          hide:false
+        }
       ]
     })
     /* clear old input */
@@ -89,14 +111,6 @@ function App() {
 
     /* increment id */
     count += 1
-  }
-
-  function handleScroll(direction) {
-    if (direction=='up') {
-      console.log("scrolling up")
-    } else {
-      console.log("scrolling down")
-    }
   }
 
   const labelStyle = {
@@ -127,9 +141,13 @@ function App() {
       <input ref={tagRef} type="text" style={inputStyle}/>
     </div>
     <div>
-      <button style={buttonStyle} onClick={handleScroll('up')}>Scroll shelf up</button>
       <button style={buttonStyle} onClick={handleAddBook}>Add book to shelf</button>
-      <button style={buttonStyle} onClick={handleScroll('down')}>Scroll shelf down</button>
+    </div>
+    <div>
+      <label style={inputStyle}>Search by tag</label>
+      <input ref={selectRef} type="text" style={inputStyle}/>
+      <button style={buttonStyle} onClick={selectTag}>Search</button>
+      <button style={buttonStyle} onClick={showAll}>Reset</button>
     </div>
     </>
   )
