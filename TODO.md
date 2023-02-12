@@ -6,8 +6,9 @@
 * Can add tags to books
 
 ## Near term features to implement
-* Only show books of a certain tag (by clicking tag), can go back to start
+* Search multiple tags at once
 * Scroll book list up / down
+* Store pages read, have styled progress bar in percent %
 * Store user's books in localStorage for persistance when running on localhost
 
 ## Long term features to implement
