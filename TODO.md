@@ -11,7 +11,7 @@
 * Store user's books in localStorage for persistance when running on localhost
 
 ## Long term features to implement
-* Full RESTful CRUD functionality with node.js, express and MongoDB
+* Full RESTful CRUD functionality with node.js, express and MySQL
 * Sanitise user inputs, security audit, protect from XSS and CSRF
 * User authentication via username and password, store securely, hashed and salted
 * Host on Heroku
