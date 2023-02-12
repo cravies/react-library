@@ -88,20 +88,35 @@ function App() {
     setBooks((books) => books.filter((item) => item.id !== id));
   }
 
-  function selectTag(tag=null) {
-    if (tag == null) {
+  function selectTag(myTags = null) {
+    if (myTags == null) {
       // called from search bar
-      console.log("grabbing tag from useRef hook");
-      tag = selectRef.current.value;
-      console.log(tag);
+      console.log("grabbing tags from useRef hook");
+      myTags = selectRef.current.value;
+      // string split into array
+      myTags = splitTags(myTags)
+      console.log(myTags);
+      const newBooks = [...books];
+      // show everything (hide is false)
+      newBooks.map(
+        (book) => (book.hide = false)
+      );
+      // now for each tag, hide it if it doesnt have this tag
+      myTags.map((tag) =>
+        newBooks.map(
+          (book) => { if (book.tags.includes(tag)!=true) { book.hide = true } }
+        )
+      );
+      setBooks(newBooks);
+    } else {
+      //otherwise called from button, tag is not null
+      const newBooks = [...books];
+      // grab a book that doesn't include the tag
+      newBooks.map(
+        (book) => (book.hide = book.tags.includes(myTags) ? false : true)
+      );
+      setBooks(newBooks);
     }
-    //otherwise called from button, tag is not null
-    const newBooks = [...books];
-    // grab a book that doesn't include the tag
-    newBooks.map(
-      (book) => (book.hide = book.tags.includes(tag) ? false : true)
-    );
-    setBooks(newBooks);
   }
 
   function showAll() {
@@ -205,8 +220,8 @@ function App() {
         </button>
       </div>
       <div>
-        <label style={inputStyle}>Search by tag</label>
-        <input ref={selectRef} type="text" style={inputStyle}/>
+        <label style={inputStyle}>Search by tags</label>
+        <input ref={selectRef} type="text" style={inputStyle} />
         <button style={buttonStyle} onClick={() => selectTag()}>
           Search
         </button>
