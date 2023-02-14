@@ -15,11 +15,15 @@ function BookShelf({ books, toggleBook, removeBook, selectTag }) {
   }
 
   return (
+    <div style={{
+      overflow: 'scroll',
+      maxHeight: '800px',
+      overflowY:'scroll'
+    }}>
     <table
       style={{
         tableLayout: "fixed",
         width: "90%",
-        height: "70%",
         gap: "2rem",
         margin: "0 auto",
         alignItems: "left",
@@ -52,6 +56,7 @@ function BookShelf({ books, toggleBook, removeBook, selectTag }) {
         ))}
       </tbody>
     </table>
+    </div>
   );
 }
 
