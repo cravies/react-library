@@ -7,14 +7,17 @@ let count = 1;
 
 function App() {
 
-  console.log(defaultBooks)
-
   const [books, setBooks] = useState(defaultBooks);
+  const [readnum, setBooksRead] = useState(5);
+  const [tagstate, setTagState] = useState([]);
   const titleRef = useRef();
   const authorRef = useRef();
   const pageRef = useRef();
   const tagRef = useRef();
   const selectRef = useRef();
+
+  // initialise app
+  console.log(defaultBooks);
 
   function toggleBook(id) {
     /* never want to change state directly in react */
@@ -25,6 +28,19 @@ function App() {
     book.read = !book.read;
     /* update books */
     setBooks(newBooks);
+    /* update books read count */
+    countRead();
+  }
+
+  // count the number of books we have read and display
+  function countRead() {
+    let res=0;
+    for (let i=0; i<books.length; i++) {
+      if (books[i].read && books[i].hide==false) {
+        res += 1;
+      }
+    }
+    setBooksRead(res);
   }
 
   function removeBook(id) {
@@ -60,6 +76,19 @@ function App() {
       );
       setBooks(newBooks);
     }
+    // set the tag filter header up the top
+    console.log(typeof myTags);
+    if (typeof myTags == "string") {
+      // using a string
+      setTagState((oldTags) => {return [...oldTags,myTags]})
+    } else {
+      // using an array, map each element
+      myTags.map( (tag) =>
+        setTagState((oldTags) => {return [...oldTags,tag]})
+      )
+    }
+    // re count number of books read to only include books with this tag
+    countRead()
   }
 
   function showAll() {
@@ -67,6 +96,9 @@ function App() {
     const newBooks = [...books];
     newBooks.map((book) => (book.hide = false));
     setBooks(newBooks);
+    // reset tag count and read count
+    setTagState([]);
+    countRead();
   }
 
   /* check if a var is a valid number 
@@ -92,7 +124,7 @@ function App() {
     return tags;
   }
 
-  function handleAddBook(e) {
+  function AddBook() {
     const title = titleRef.current.value;
     const author = authorRef.current.value;
     const tags = splitTags(tagRef.current.value);
@@ -138,9 +170,28 @@ function App() {
     margin: "10px",
   };
 
+  const blockStyle = {
+    display: "inline-block",
+    marginRight: '10px',
+  }
+
+  const blockButtonStyle = {
+    border: "1px solid black",
+    margin: "10px",
+    display: "inline-block",
+    marginRight: '10px',
+  }
+
   return (
     <>
       <h1> 📚 Bookshelf 📖 </h1>
+      <div>
+        <h2 style={blockStyle}> Total </h2>     
+        {tagstate.map((tags,i) => (
+          <button style={blockButtonStyle} key={i*9782}> {tags} </button>
+        ))}
+        <h2 style={blockStyle}> Books Read: {readnum} </h2>
+      </div>
       <BookShelf
         books={books}
         toggleBook={toggleBook}
@@ -158,8 +209,11 @@ function App() {
         <input ref={tagRef} type="text" style={inputStyle} />
       </div>
       <div>
-        <button style={buttonStyle} onClick={handleAddBook}>
+        <button style={buttonStyle} onClick={AddBook}>
           Add book to shelf
+        </button>
+        <button style={blockButtonStyle} onClick={showAll}>
+          Reset tag filters
         </button>
       </div>
       <div>
@@ -167,9 +221,6 @@ function App() {
         <input ref={selectRef} type="text" style={inputStyle} />
         <button style={buttonStyle} onClick={() => selectTag()}>
           Search
-        </button>
-        <button style={buttonStyle} onClick={showAll}>
-          Reset
         </button>
       </div>
     </>
