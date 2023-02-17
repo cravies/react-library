@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useEffect } from "react";
 import "./App.css";
 import BookShelf from "./BookShelf";
 import { defaultBooks } from "./constants";
@@ -19,6 +20,12 @@ function App() {
   // initialise app
   console.log(defaultBooks);
 
+  // need to recount books every time book state changes
+  useEffect(() => {
+    console.log(books);
+    countRead();
+  }, [books]);
+
   function toggleBook(id) {
     /* never want to change state directly in react */
     const newBooks = [...books];
@@ -28,15 +35,13 @@ function App() {
     book.read = !book.read;
     /* update books */
     setBooks(newBooks);
-    /* update books read count */
-    countRead();
   }
 
   // count the number of books we have read and display
   function countRead() {
     let res=0;
     for (let i=0; i<books.length; i++) {
-      if (books[i].read && books[i].hide==false) {
+      if (books[i].read && books[i].hide!=true) {
         res += 1;
       }
     }
@@ -87,8 +92,6 @@ function App() {
         setTagState((oldTags) => {return [...oldTags,tag]})
       )
     }
-    // re count number of books read to only include books with this tag
-    countRead()
   }
 
   function showAll() {
@@ -98,7 +101,6 @@ function App() {
     setBooks(newBooks);
     // reset tag count and read count
     setTagState([]);
-    countRead();
   }
 
   /* check if a var is a valid number 
